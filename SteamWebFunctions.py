@@ -24,22 +24,49 @@ def get_appname(dom):
 
 
 def get_releasedate(dom):
-    res = dom.find_all(class_='release_date')
-    date = res[1]
-    date = date.text.replace('Release Date: ', '').replace('\t', '').replace('\n', '').replace('\r', '')
+    rdate = dom.find(class_='release_date')
+    date = rdate.text.replace('Release Date: ', '').replace('\t', '').replace('\n', '').replace('\r', '')
     return date
 
 
 def get_metascore(dom):
     score = dom.find(id='game_area_metascore')
-    return score.text.replace('\n', '').replace('\r', '')
+    try:
+        return score.text.replace('\n', '').replace('\r', '')
+    except AttributeError:
+        return None
 
 
+# This will need to be fixed to accommodate recent reviews
 def get_review_summary(dom):
     quick_summary = dom.find(class_='game_review_summary')
-    aggregate_review_div = dom.find('div',{'itemprop':'aggregateRating'})
+    aggregate_review_div = dom.find('div', {'itemprop':'aggregateRating'})
     full_summary = aggregate_review_div['data-store-tooltip']
     return [quick_summary.text, full_summary]
+
+
+def get_details(dom):
+
+    def clean_array(a):
+        new_array = []
+        for e in a:
+            if e != '':
+                new_array.append(e.strip())
+        return new_array
+    details_block = dom.find(class_="details_block")
+    dbt = details_block.text.replace('\r', '').replace('\t', '')
+    sdbt = dbt.replace('\n', ',').replace(':', ',').split(',')
+    genres, developer, publisher = [], [], []
+    for e in sdbt:
+        if e == 'Genre':
+            genres = sdbt[sdbt.index('Genre')+1:sdbt.index('Developer')]
+        if e == 'Developer':
+            developer = sdbt[sdbt.index('Developer')+1:sdbt.index('Publisher')]
+        if e == 'Publisher':
+            publisher = sdbt[sdbt.index('Publisher')+1:sdbt.index('Release Date')]
+
+    return clean_array(genres), clean_array(developer), clean_array(publisher)
+
 
 def get_html_dom(app_id):
     r = requests.get("http://store.steampowered.com/app/%s/" % app_id)
@@ -61,6 +88,10 @@ def get_app_info(app_id):
     print categories
     user_tags = get_tags(dom)
     print user_tags
+    genres, developer, publisher = get_details(dom)
+    print genres
+    print developer
+    print publisher
 
 
 def get_owned_games():
