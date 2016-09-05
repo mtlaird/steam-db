@@ -68,6 +68,14 @@ def get_details(dom):
     return clean_array(genres), clean_array(developer), clean_array(publisher)
 
 
+def get_game_description_snippet(dom):
+    gds = dom.find(class_="game_description_snippet")
+    try:
+        return gds.text.strip()
+    except AttributeError:
+        return None
+
+
 def get_html_dom(app_id):
     r = requests.get("http://store.steampowered.com/app/%s/" % app_id)
     dom = BeautifulSoup(r.text)
