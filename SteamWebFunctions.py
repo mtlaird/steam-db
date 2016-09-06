@@ -84,24 +84,25 @@ def get_html_dom(app_id):
 
 def get_app_info(app_id):
     dom = get_html_dom(app_id)
-    appname = get_appname(dom)
-    print appname
-    releasedate = get_releasedate(dom)
-    print releasedate
-    metascore = get_metascore(dom)
-    print metascore
-    review_summary = get_review_summary(dom)
-    print review_summary
-    categories = get_categories(dom)
-    print categories
-    user_tags = get_tags(dom)
-    print user_tags
-    genres, developer, publisher = get_details(dom)
-    print genres
-    print developer
-    print publisher
-    game_desc = get_game_description_snippet(dom)
-    print game_desc
+    app_info = {'app_name': get_appname(dom), 'release_date': get_releasedate(dom), 'metascore': get_metascore(dom),
+                'review_summary': get_review_summary(dom), 'categories': get_categories(dom),
+                'user_tags': get_tags(dom), 'genres': get_details(dom)[0], 'developer': get_details(dom)[1],
+                'publisher': get_details(dom)[2], 'game_desc': get_game_description_snippet(dom)}
+    return app_info
+
+
+def print_app_info(app_id):
+    app_info = get_app_info(app_id)
+    print app_info['app_name']
+    print app_info['release_date']
+    print app_info['metascore']
+    print app_info['review_summary']
+    print app_info['categories']
+    print app_info['user_tags']
+    print app_info['genres']
+    print app_info['developer']
+    print app_info['publisher']
+    print app_info['game_desc']
 
 
 def get_owned_games():
