@@ -105,8 +105,10 @@ def get_app_info(app_id):
 
 
 def get_owned_games():
-    api_key = '67A9B0DDDABA23B76FE8976FC14D0BBC'
-    steamid = '76561198024767219'
+    with open('steamApiKey') as f_api:
+        api_key = f_api.read()
+    with open('steamID') as f_id:
+        steamid = f_id.read()
     url = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/'
     params = 'key=%s&steamid=%s&format=json' % (api_key, steamid)
     r = requests.get('%s?%s' % (url, params))
