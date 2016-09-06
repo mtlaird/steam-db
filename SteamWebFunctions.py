@@ -100,6 +100,8 @@ def get_app_info(app_id):
     print genres
     print developer
     print publisher
+    game_desc = get_game_description_snippet(dom)
+    print game_desc
 
 
 def get_owned_games():
