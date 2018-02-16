@@ -1,0 +1,6 @@
+SteamAnalyzerVenv
+steamApiKey
+SteamID
+.idea
+*.pyc
+steamID
