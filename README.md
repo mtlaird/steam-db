@@ -6,7 +6,7 @@ Whether you have your own virtualenv or are just using system python, you can ru
 
 `python wishlist_analyzer.py`
 
-But that won't do anything, by itself. You need to provide a steam user id, which can be either the username or all-digit ID you will see on either the https://store.steampowered.com/wishlist/id/<username>/ or http://steamcommunity.com/profiles/<id>/wishlist/ URLs.
+But that won't do anything, by itself. You need to provide a steam user id, which can be either the username or all-digit ID you will see on either the `https://store.steampowered.com/wishlist/id/<username>/` or `http://steamcommunity.com/profiles/<id>/wishlist/` URLs.
 
 Once you give it a username, it will scrape your Steam wishlist and print out a summary of the games on your wishlist that are currently on sale. From there, you have a few extra options.
 
