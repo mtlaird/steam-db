@@ -353,7 +353,11 @@ class SteamWishList:
             self.initialize()
 
     def get_wishlist_dom(self):
-        r = requests.get('http://steamcommunity.com/profiles/{}/wishlist/'.format(self.user_id))
+        try:
+            int(self.user_id)
+            r = requests.get('http://steamcommunity.com/profiles/{}/wishlist/'.format(self.user_id))
+        except ValueError:
+            r = requests.get('https://store.steampowered.com/wishlist/id/{}/'.format(self.user_id))
         self.dom = BeautifulSoup(r.text, "html.parser")
 
     # Old dom parsing method, now obsolete
